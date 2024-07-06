@@ -100,7 +100,7 @@ func (f *fragment) append(ip string, subdomain string) {
 }
 
 func (f *fragment) write() error {
-	if f.m == nil || f.out == nil {
+	if f.m == nil || len(f.m) == 0 || f.out == nil {
 		return nil
 	}
 	keys := make([]string, 0, len(f.m))
@@ -110,8 +110,12 @@ func (f *fragment) write() error {
 
 	sort.Strings(keys)
 
-	for _, k := range keys {
-		output := fmt.Sprintf("%s %s\n", k, strings.Join(f.m[k], ","))
+	output := fmt.Sprintf("%s %s", keys[0], strings.Join(f.m[keys[0]], ","))
+	if _, err := f.out.Write([]byte(output)); err != nil {
+		return err
+	}
+	for _, k := range keys[1:] {
+		output := fmt.Sprintf("\n%s %s", k, strings.Join(f.m[k], ","))
 		if _, err := f.out.Write([]byte(output)); err != nil {
 			return err
 		}

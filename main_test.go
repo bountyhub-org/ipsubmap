@@ -44,7 +44,7 @@ func TestFragmentWrite(t *testing.T) {
 					"1.1.1.1": {"example.com", "example.org"},
 				},
 			},
-			want: "1.1.1.1 example.com,example.org\n2.2.2.2 example.com\n",
+			want: "1.1.1.1 example.com,example.org\n2.2.2.2 example.com",
 		},
 	}
 
